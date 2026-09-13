@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Selzz Market v2</title>
+
+<style>
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0d0d12;
+    color: white;
+}
+
+.container {
+    width: 92%;
+    max-width: 650px;
+    margin: auto;
+    padding: 25px 0;
+}
+
+h1 {
+    text-align: center;
+    color: #a855f7;
+    font-size: 38px;
+    margin-bottom: 5px;
+}
+
+.subtitle {
+    text-align: center;
+    color: #888;
+    margin-bottom: 25px;
+}
+
+h2 {
+    border-left: 5px solid #a855f7;
+    padding-left: 12px;
+    margin: 25px 0 18px;
+}
+
+.menu {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 25px;
+}
+
+.menu button {
+    margin: 0;
+    background: #18181f;
+    color: white;
+    border: 1px solid #30303a;
+}
+
+.menu button:hover {
+    background: #a855f7;
+}
+
+.uid,
+.product {
+    background: #18181f;
+    border: 1px solid #30303a;
+    border-radius: 12px;
+    padding: 15px;
+    margin: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+    cursor: pointer;
+    transition: 0.2s;
+    gap: 10px;
+}
+
+.uid:hover,
+.product:hover {
+    transform: scale(1.02);
+    border-color: #a855f7;
+}
+
+.uid.sold,
+.product.sold {
+    opacity: 0.55;
+    cursor: not-allowed;
+    border-color: #4a2525;
+}
+
+.uid.sold:hover,
+.product.sold:hover {
+    transform: none;
+    border-color: #4a2525;
+}
+
+.number {
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 14px;
+}
+
+.product-name {
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.product-desc {
+    color: #888;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.error-text {
+    color: #ff4d4d;
+    font-size: 11px;
+    font-weight: bold;
+    margin-top: 3px;
+}
+
+.info {
+    text-align: right;
+    min-width: 90px;
+}
+
+.rare {
+    color: #00d9ff;
+    font-weight: bold;
+}
+
+.uncommon {
+    color: #55ff77;
+    font-weight: bold;
+}
+
+.epik {
+    color: #c084fc;
+    font-weight: bold;
+}
+
+.mitic {
+    color: #ffd000;
+    font-weight: bold;
+}
+
+.diamond {
+    color: #00d9ff;
+    font-weight: bold;
+}
+
+.nokos {
+    color: #55ff77;
+    font-weight: bold;
+}
+
+.sold-text {
+    color: #ff4d4d;
+    font-weight: bold;
+    font-size: 15px;
+}
+
+.price {
+    margin-top: 4px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.footer {
+    text-align: center;
+    color: #666;
+    margin: 35px 0;
+}
+
+.popup-bg {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+    padding: 20px;
+}
+
+.popup {
+    width: 100%;
+    max-width: 400px;
+    background: #18181f;
+    border: 1px solid #33333d;
+    border-radius: 18px;
+    padding: 25px;
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+.popup h3 {
+    color: #a855f7;
+    font-size: 24px;
+    margin-top: 0;
+}
+
+.selected-uid {
+    background: #0d0d12;
+    padding: 14px;
+    border-radius: 10px;
+    margin: 15px 0;
+    font-weight: bold;
+}
+
+.selected-price {
+    color: #ffd000;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 10px 0;
+}
+
+.dana {
+    background: #22222b;
+    padding: 15px;
+    border-radius: 12px;
+    margin: 15px 0;
+}
+
+.dana-title {
+    color: #00a9ff;
+    font-weight: bold;
+    font-size: 18px;
+}
+
+.dana-number {
+    margin-top: 7px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+button {
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    padding: 13px;
+    margin-top: 10px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.btn-dana {
+    background: #00a9ff;
+    color: white;
+}
+
+.btn-wa {
+    background: #25d366;
+    color: white;
+}
+
+.btn-close {
+    background: #30303a;
+    color: white;
+}
+
+@media(max-width:450px) {
+    .menu {
+        grid-template-columns: 1fr;
+    }
+
+    h1 {
+        font-size: 32px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Selzz Market v2</h1>
+
+    <p class="subtitle">
+        Tempat Jual Beli UID, Nokos & Diamond FF
+    </p>
+
+    <div class="menu">
+
+        <button onclick="tampilkanKategori('uid')">
+            🎮 UID FF
+        </button>
+
+        <button onclick="tampilkanKategori('nokos')">
+            📱 NOKOS
+        </button>
+
+        <button onclick="tampilkanKategori('diamond')">
+            💎 DIAMOND FF
+        </button>
+
+    </div>
+
+    <section id="sectionUID">
+
+        <h2>🎮 List UID</h2>
+
+        <div id="uidList"></div>
+
+    </section>
+
+    <section id="sectionNokos" style="display:none;">
+
+        <h2>📱 List Nokos</h2>
+
+        <div id="nokosList"></div>
+
+    </section>
+
+    <section id="sectionDiamond" style="display:none;">
+
+        <h2>💎 Diamond FF</h2>
+
+        <div id="diamondList"></div>
+
+    </section>
+
+    <div class="footer">
+        © 2026 Selzz Market v2
+    </div>
+
+</div>
+
+<div class="popup-bg" id="popupBg">
+
+    <div class="popup">
+
+        <h3>Konfirmasi Pembelian</h3>
+
+        <div class="selected-uid">
+
+            <span id="selectedLabel">
+                Produk:
+            </span>
+
+            <span id="selectedUID"></span>
+
+        </div>
+
+        <div class="selected-price">
+
+            Harga:
+            <span id="selectedPrice"></span>
+
+        </div>
+
+        <p id="popupDescription">
+            Kamu memilih produk tersebut.
+        </p>
+
+        <div class="dana">
+
+            <div class="dana-title">
+                💙 PEMBAYARAN DANA
+            </div>
+
+            <div class="dana-number">
+                0895428892777
+            </div>
+
+        </div>
+
+        <button class="btn-dana" onclick="bukaDana()">
+            💳 Lanjut Pembayaran DANA
+        </button>
+
+        <button class="btn-wa" onclick="konfirmasiWA()">
+            💬 Konfirmasi via WhatsApp
+        </button>
+
+        <button class="btn-close" onclick="tutupPopup()">
+            ✕ Tutup
+        </button>
+
+    </div>
+
+</div>
+
+<div class="popup-bg" id="danaPage">
+
+    <div class="popup">
+
+        <h3>💙 Pembayaran DANA</h3>
+
+        <div class="selected-uid">
+            <span id="danaProduk"></span>
+        </div>
+
+        <div class="selected-price">
+            Total:
+            <span id="danaHarga"></span>
+        </div>
+
+        <div class="dana">
+
+            <div class="dana-title">
+                💙 DANA
+            </div>
+
+            <div class="dana-number">
+                0895428892777
+            </div>
+
+        </div>
+
+        <p style="color:#aaa;font-size:13px;">
+
+            Silakan bayar sesuai nominal
+            yang tertera.
+
+            Setelah pembayaran selesai,
+            lakukan konfirmasi melalui
+            WhatsApp.
+
+        </p>
+
+        <button class="btn-dana" onclick="langsungKeDana()">
+            💳 Buka Aplikasi DANA
+        </button>
+
+        <button class="btn-wa" onclick="konfirmasiWA()">
+            💬 Konfirmasi Pembayaran
+        </button>
+
+        <button class="btn-close" onclick="tutupDanaPage()">
+            ✕ Kembali
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+/* DATA UID */
+
+const uidData = [
+
+    ["17077772827", "mitic"],
+    ["17077773718", "epik"],
+    ["17441131111", "rare"],
+    ["17355557876", "uncommon"],
+    ["17355553003", "rare"],
+    ["17494441441", "mitic"],
+    ["17494442414", "epik"],
+    ["17489880888", "mitic"],
+    ["17494444024", "rare"],
+    ["17444777675", "uncommon"],
+    ["17447744431", "epik"],
+    ["17462777777", "mitic"],
+    ["17447733333", "rare"],
+
+    /* UID BARU SECRET */
+
+    ["17499999964", "mitic"],
+    ["17499999869", "mitic"],
+    ["17500001009", "epik"],
+    ["17500002090", "epik"],
+    ["17500002070", "epik"],
+    ["17500002900", "rare"],
+    ["17500020500", "rare"]
+
+];
+
+
+/* UID KHUSUS HARGA 4K */
+
+const uid4K = [
+
+    "17499999964",
+    "17499999869",
+    "17500001009",
+    "17500002090",
+    "17500002070",
+    "17500002900",
+    "17500020500"
+
+];
+
+
+/* HARGA UID */
+
+const harga = {
+
+    uncommon: "2.5K",
+    rare: "2.5K",
+    epik: "2.5K",
+    mitic: "2.5K"
+
+};
+
+
+/* NOKOS */
+
+const namaNokos =
+    "Nokos Indonesia";
+
+const hargaNokos =
+    "5K";
+
+let stokNokos =
+    Number(
+        localStorage.getItem(
+            "selzzStokNokos"
+        )
+    );
+
+if (
+    isNaN(stokNokos) ||
+    stokNokos <= 0
+) {
+
+    stokNokos = 1000;
+
+    localStorage.setItem(
+        "selzzStokNokos",
+        stokNokos
+    );
+
+}
+
+
+/* DIAMOND */
+
+const diamondData = [
+
+    ["70 Diamond FF + BONUS", "12K"],
+    ["140 Diamond FF + BONUS", "22K"],
+    ["355 Diamond FF + BONUS", "52K"],
+    ["720 Diamond FF + BONUS", "102K"]
+
+];
+
+
+/* SOLD UID */
+
+let soldUID =
+    JSON.parse(
+        localStorage.getItem(
+            "selzzSoldUID"
+        ) || "[]"
+    );
+
+
+/* VARIABEL PEMBELIAN */
+
+let uidTerpilih = "";
+let rarityTerpilih = "";
+let hargaTerpilih = "";
+let tipeProduk = "";
+
+
+/* TAMPILKAN UID */
+
+function tampilkanUID() {
+
+    const uidList =
+        document.getElementById(
+            "uidList"
+        );
+
+    uidList.innerHTML = "";
+
+    uidData.forEach(item => {
+
+        const uid =
+            item[0];
+
+        const rarity =
+            item[1];
+
+        const box =
+            document.createElement(
+                "div"
+            );
+
+        box.className =
+            "uid";
+
+        if (
+            soldUID.includes(uid)
+        ) {
+
+            box.classList.add(
+                "sold"
+            );
+
+            box.innerHTML = `
+
+                <span class="number">
+                    ~UID = | ${uid}
+                </span>
+
+                <div class="info">
+
+                    <span class="sold-text">
+                        🔴 SOLD OUT
+                    </span>
+
+                </div>
+
+            `;
+
+        } else {
+
+            let namaRarity =
+                rarity === "mitic"
+                ? "Mitic"
+                : rarity === "epik"
+                ? "Epik"
+                : rarity === "rare"
+                ? "Rare"
+                : "Uncommon";
+
+            const hargaUID =
+                uid4K.includes(uid)
+                ? "4K"
+                : "2.5K";
+
+            box.innerHTML = `
+
+                <span class="number">
+                    ~UID = | ${uid}
+                </span>
+
+                <div class="info">
+
+                    <span class="${rarity}">
+                        ${namaRarity}
+                    </span>
+
+                    <div class="price">
+                        ${hargaUID}
+                    </div>
+
+                </div>
+
+            `;
+
+            box.onclick = () => {
+
+                pilihUID(
+                    uid,
+                    rarity
+                );
+
+            };
+
+        }
+
+        uidList.appendChild(
+            box
+        );
+
+    });
+
+}
+
+
+/* TAMPILKAN NOKOS */
+
+function tampilkanNokos() {
+
+    const list =
+        document.getElementById(
+            "nokosList"
+        );
+
+    list.innerHTML = "";
+
+    const box =
+        document.createElement(
+            "div"
+        );
+
+    box.className =
+        "product";
+
+    if (stokNokos <= 0) {
+
+        box.classList.add(
+            "sold"
+        );
+
+        box.innerHTML = `
+
+            <div>
+
+                <div class="product-name">
+                    📱 ${namaNokos}
+                </div>
+
+                <div class="product-desc">
+                    Stok nomor sudah habis
+                </div>
+
+            </div>
+
+            <div class="info">
+
+                <span class="sold-text">
+                    🔴 SOLD OUT
+                </span>
+
+            </div>
+
+        `;
+
+    } else {
+
+        box.innerHTML = `
+
+            <div>
+
+                <div class="product-name">
+                    📱 ${namaNokos}
+                </div>
+
+                <div class="product-desc">
+                    Stok tersedia:
+                    ${stokNokos.toLocaleString("id-ID")}
+
+                    <div class="error-text">
+                        🔴 Produk Eror
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="info">
+
+                <span class="nokos">
+                    NOKOS
+                </span>
+
+                <div class="price">
+                    ${hargaNokos}
+                </div>
+
+            </div>
+
+        `;
+
+        box.onclick = () => {
+
+            pilihProduk(
+                "Nokos",
+                namaNokos,
+                hargaNokos
+            );
+
+        };
+
+    }
+
+    list.appendChild(
+        box
+    );
+
+}
+
+
+/* TAMPILKAN DIAMOND */
+
+function tampilkanDiamond() {
+
+    const list =
+        document.getElementById(
+            "diamondList"
+        );
+
+    list.innerHTML = "";
+
+    diamondData.forEach(
+        item => {
+
+            const nama =
+                item[0];
+
+            const hargaDiamond =
+                item[1];
+
+            const box =
+                document.createElement(
+                    "div"
+                );
+
+            box.className =
+                "product";
+
+            box.innerHTML = `
+
+                <div>
+
+                    <div class="product-name">
+                        💎 ${nama}
+                    </div>
+
+                    <div class="product-desc">
+                        Diamond Free Fire
+                    </div>
+
+                </div>
+
+                <div class="info">
+
+                    <span class="diamond">
+                        DIAMOND
+                    </span>
+
+                    <div class="price">
+                        ${hargaDiamond}
+                    </div>
+
+                </div>
+
+            `;
+
+            box.onclick = () => {
+
+                pilihProduk(
+                    "Diamond FF",
+                    nama,
+                    hargaDiamond
+                );
+
+            };
+
+            list.appendChild(
+                box
+            );
+
+        }
+    );
+
+}
+
+
+/* KATEGORI */
+
+function tampilkanKategori(
+    kategori
+) {
+
+    document.getElementById(
+        "sectionUID"
+    ).style.display = "none";
+
+    document.getElementById(
+        "sectionNokos"
+    ).style.display = "none";
+
+    document.getElementById(
+        "sectionDiamond"
+    ).style.display = "none";
+
+    if (kategori === "uid") {
+
+        document.getElementById(
+            "sectionUID"
+        ).style.display = "block";
+
+    }
+
+    if (kategori === "nokos") {
+
+        document.getElementById(
+            "sectionNokos"
+        ).style.display = "block";
+
+    }
+
+    if (kategori === "diamond") {
+
+        document.getElementById(
+            "sectionDiamond"
+        ).style.display = "block";
+
+    }
+
+}
+
+
+/* PILIH UID */
+
+function pilihUID(
+    uid,
+    rarity
+) {
+
+    if (
+        soldUID.includes(uid)
+    ) {
+        return;
+    }
+
+    uidTerpilih =
+        uid;
+
+    rarityTerpilih =
+        rarity;
+
+    hargaTerpilih =
+        uid4K.includes(uid)
+        ? "4K"
+        : "2.5K";
+
+    tipeProduk =
+        "UID FF";
+
+    document.getElementById(
+        "selectedLabel"
+    ).innerText =
+        "UID: ";
+
+    document.getElementById(
+        "selectedUID"
+    ).innerText =
+        uid;
+
+    document.getElementById(
+        "selectedPrice"
+    ).innerText =
+        hargaTerpilih;
+
+    document.getElementById(
+        "popupDescription"
+    ).innerText =
+        "Kamu memilih UID tersebut. Silakan lanjut ke pembayaran DANA.";
+
+    document.getElementById(
+        "popupBg"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* PILIH PRODUK */
+
+function pilihProduk(
+    tipe,
+    nama,
+    hargaProduk
+) {
+
+    if (
+        tipe === "Nokos" &&
+        stokNokos <= 0
+    ) {
+
+        alert(
+            "Maaf, stok NOKOS sudah habis."
+        );
+
+        return;
+
+    }
+
+    uidTerpilih =
+        nama;
+
+    rarityTerpilih =
+        "-";
+
+    hargaTerpilih =
+        hargaProduk;
+
+    tipeProduk =
+        tipe;
+
+    document.getElementById(
+        "selectedLabel"
+    ).innerText =
+        "Produk: ";
+
+    document.getElementById(
+        "selectedUID"
+    ).innerText =
+        nama;
+
+    document.getElementById(
+        "selectedPrice"
+    ).innerText =
+        hargaProduk;
+
+    document.getElementById(
+        "popupDescription"
+    ).innerText =
+        "Kamu memilih produk tersebut. Silakan lanjut ke pembayaran DANA.";
+
+    document.getElementById(
+        "popupBg"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* TUTUP POPUP */
+
+function tutupPopup() {
+
+    document.getElementById(
+        "popupBg"
+    ).style.display =
+        "none";
+
+}
+
+
+/* HALAMAN DANA */
+
+function bukaDana() {
+
+    document.getElementById(
+        "danaProduk"
+    ).innerText =
+        tipeProduk +
+        " - " +
+        uidTerpilih;
+
+    document.getElementById(
+        "danaHarga"
+    ).innerText =
+        hargaTerpilih;
+
+    document.getElementById(
+        "popupBg"
+    ).style.display =
+        "none";
+
+    document.getElementById(
+        "danaPage"
+    ).style.display =
+        "flex";
+
+}
+
+
+/* BUKA APLIKASI DANA */
+
+function langsungKeDana() {
+
+    window.location.href =
+        "dana://";
+
+}
+
+
+/* TUTUP HALAMAN DANA */
+
+function tutupDanaPage() {
+
+    document.getElementById(
+        "danaPage"
+    ).style.display =
+        "none";
+
+}
+
+
+/* KONFIRMASI WHATSAPP */
+
+function konfirmasiWA() {
+
+    if (!uidTerpilih) {
+        return;
+    }
+
+    const nomorWA =
+        "62895428892777";
+
+    let pesan =
+        "Halo Selzz, saya ingin membeli.%0A%0A" +
+
+        "Produk: " +
+        tipeProduk +
+        "%0A" +
+
+        "Nama/UID: " +
+        uidTerpilih +
+        "%0A";
+
+    if (
+        tipeProduk === "UID FF"
+    ) {
+
+        pesan +=
+            "Rarity: " +
+            rarityTerpilih +
+            "%0A";
+
+    }
+
+    pesan +=
+
+        "Harga: " +
+        hargaTerpilih +
+        "%0A" +
+
+        "Pembayaran: DANA%0A" +
+
+        "Tujuan DANA: " +
+        "0895428892777" +
+        "%0A%0A" +
+
+        "Saya akan mengirim bukti pembayaran.";
+
+    const url =
+        "https://wa.me/" +
+        nomorWA +
+        "?text=" +
+        pesan;
+
+    if (
+        tipeProduk === "UID FF"
+    ) {
+
+        if (
+            !soldUID.includes(
+                uidTerpilih
+            )
+        ) {
+
+            soldUID.push(
+                uidTerpilih
+            );
+
+            localStorage.setItem(
+                "selzzSoldUID",
+                JSON.stringify(
+                    soldUID
+                )
+            );
+
+        }
+
+        tampilkanUID();
+
+    }
+
+    if (
+        tipeProduk === "Nokos"
+    ) {
+
+        if (
+            stokNokos <= 0
+        ) {
+
+            alert(
+                "Maaf, stok NOKOS sudah habis."
+            );
+
+            return;
+
+        }
+
+        stokNokos--;
+
+        localStorage.setItem(
+            "selzzStokNokos",
+            stokNokos
+        );
+
+        tampilkanNokos();
+
+    }
+
+    tutupPopup();
+
+    tutupDanaPage();
+
+    window.open(
+        url,
+        "_blank"
+    );
+
+}
+
+
+/* MULAI */
+
+tampilkanUID();
+
+tampilkanNokos();
+
+tampilkanDiamond();
+
+</script>
+
+</body>
+</html>
